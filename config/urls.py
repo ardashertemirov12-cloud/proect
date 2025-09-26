@@ -9,7 +9,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('PycharmProjects.urls'))
+    path('api/v1/', include('PycharmProjects.urls'))
 ]
 
 if settings.DEBUG:

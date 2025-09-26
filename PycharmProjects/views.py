@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Yangiliklar
+from rest_framework import generics
+from .serializers import YangiliklarSerializers
 
-def  salom_beruvchi(request):
+
+# Oddiy funksiyalar
+def salom_beruvchi(request):
     return HttpResponse("Assalomu aleykum Ardasher Aka")
 
 def alik_ol(request):
@@ -24,13 +28,13 @@ def shahar_viloyat_mamlakat(request):
     return HttpResponse("Termiz shahar, Surxandaryo viloyati, O'zbekiston Respublikasi.")
 
 
+# Yangiliklar - HTML sahifalar uchun
 def all_news(request):
     news = Yangiliklar.objects.all()
     context = {
-        'news':news
+        'news': news
     }
     return render(request, 'all_news.html', context)
-
 
 def detail(request, id):
     yangilik = Yangiliklar.objects.get(id=id)
@@ -40,5 +44,7 @@ def detail(request, id):
     return render(request, 'detail.html', context)
 
 
-
-
+# REST API uchun
+class YangiliklarList(generics.ListCreateAPIView):
+    queryset = Yangiliklar.objects.all()
+    serializer_class = YangiliklarSerializers   # ✅ to‘g‘rilandi
